@@ -21,11 +21,19 @@ dp.include_router(user.user_router)
 
 @dp.message(CommandStart())
 async def start_cmd(message: types.Message):
+    """
+    Функция приветствия
+    """
     await message.answer('Hi')
 
 
 @dp.message(Command("today"))
 async def today_work_day(message: types.Message):
+    """
+    Отображения зуммов на сегодня по id пользователя.
+    Получаем id пользователя находим в базе данных как он записан
+    и начинаем поиск по имени.
+    """
     user_name = get_user_name(message.from_user.id, connection, cursor)
     for info_zoom in parsing.get_info_zooms(user_name):
         await message.answer(info_zoom)
@@ -33,6 +41,11 @@ async def today_work_day(message: types.Message):
 
 @dp.message(Command("tomorrow"))
 async def next_day_work(message: types.Message):
+    """
+    Отображения зуммов на завтра по id пользователя.
+    Получаем id пользователя находим в базе данных как он записан
+    и начинаем поиск по имени.
+    """
     user_name = get_user_name(message.from_user.id, connection, cursor)
     for info_zoom in get_info_zooms(user_name, day_='next'):
         await message.answer(info_zoom)
@@ -40,6 +53,9 @@ async def next_day_work(message: types.Message):
 
 @dp.message(Command("upd_db"))
 async def upd_db(message: types.Message):
+    """
+    Функция для отображения даты создания и обновление файла.
+    """
     last_upd = download_csv_file.get_info_last_download()
     await message.answer(last_upd)
 
@@ -64,6 +80,9 @@ async def current_bay(message: types.Message):
 
 @dp.message()
 async def echo(message: types.Message):
+    """
+    Функция эхо
+    """
     await message.answer(message.text)
 
 
