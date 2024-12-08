@@ -38,7 +38,7 @@ def get_info_work_day() -> list[dict[str | Any, str | Any]]:
 
 # Функции для того что бы переобразовать дату
 
-def data_formating(date_ : str) -> str:
+def data_formating(date_: str) -> str:
     """ Функция преднозначена для форматирования даты
     Args:
         date_ = дата не прошедшая форматирования
@@ -46,18 +46,24 @@ def data_formating(date_ : str) -> str:
     Returns:
         date - отформатированная дата 
     """
-    date_split = date_.split('.')
-    date = f'{date_split[2]}-{date_split[1]}-{date_split[0]}'
-    return date 
+    try:
+        date_split = date_.split('.')
+        print(date_split)
+        date = f'{date_split[2]}-{date_split[1]}-{date_split[0]}'
+        return date
+    except IndexError:
+        pass
+
 
 # Вывод 
 def show_zoom(work_day):
-                description_for_show_work_day = (
-                f"👨Преподаватель:"
-                f" {(work_day['Teacher'])}\n🗓Дата: "
-                f"{work_day['Data']}\n🕐Время: {work_day['Time']}\n❗Примечание: {work_day['Note']}\n📌Оператор:"
-                f" {work_day['Operator']}\n🔒Аккаунт: {work_day['Account']}.")
-                return description_for_show_work_day
+    description_for_show_work_day = (
+        f"👨Преподаватель:"
+        f" {(work_day['Teacher'])}\n🗓Дата: "
+        f"{work_day['Data']}\n🕐Время: {work_day['Time']}\n❗Примечание: {work_day['Note']}\n📌Оператор:"
+        f" {work_day['Operator']}\n🔒Аккаунт: {work_day['Account']}.")
+    return description_for_show_work_day
+
 
 def split_user_zoom(user_name):
     if '|' in user_name:
@@ -67,7 +73,7 @@ def split_user_zoom(user_name):
         [user_name]
 
 
-def get_info_zooms(user_name, day_:str = 'current'):
+def get_info_zooms(user_name, day_: str = 'current'):
     list_zooms = []
     user_name = split_user_zoom(user_name)
     date_ = days_for_week(argument=day_)
@@ -85,10 +91,17 @@ def get_info_zooms(user_name, day_:str = 'current'):
     return list_zooms
 
 
+def get_zooms_day(day_: str = 'current'):
+    list_zooms = []
+    date_ = days_for_week(argument=day_)
+    data = get_info_work_day()
+    for i in data:
+        if str(date_) == data_formating(i['Data']):
+            print(i['Comment'])
+            if 'вебинар' in i['Comment']:
+                list_zooms.append(show_zoom(i))
+    return list_zooms
+
+
 def show_current_week():
     pass
-
-
-
-
-

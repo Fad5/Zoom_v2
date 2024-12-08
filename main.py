@@ -9,7 +9,7 @@ from db_handler import get_user_name, cursor, connection
 from data_hadler import download_csv_file
 
 from user_handler import user
-from parsing import get_info_zooms
+from parsing import get_info_zooms, get_zooms_day
 
 load_dotenv(find_dotenv())
 
@@ -42,6 +42,24 @@ async def next_day_work(message: types.Message):
 async def upd_db(message: types.Message):
     last_upd = download_csv_file.get_info_last_download()
     await message.answer(last_upd)
+
+
+@dp.message(Command("today_zooms"))
+async def current_bay(message: types.Message):
+    """
+    Функция для отображения всех zooms на сегодня
+    """
+    for zoom in get_zooms_day():
+        await message.answer(zoom)
+
+
+@dp.message(Command("tomorrow_zooms"))
+async def current_bay(message: types.Message):
+    """
+    Функция для отображения всех zooms на завтра
+    """
+    for zoom in get_zooms_day('next'):
+        await message.answer(zoom)
 
 
 @dp.message()
