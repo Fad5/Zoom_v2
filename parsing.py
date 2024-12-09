@@ -1,6 +1,6 @@
 import csv
 from typing import Any
-from data_hadler import days_for_week
+from data_hadler import data_zoom
 
 
 def get_info_work_day() -> list[dict[str | Any, str | Any]]:
@@ -48,7 +48,6 @@ def data_formating(date_: str) -> str:
     """
     try:
         date_split = date_.split('.')
-        print(date_split)
         date = f'{date_split[2]}-{date_split[1]}-{date_split[0]}'
         return date
     except IndexError:
@@ -76,14 +75,12 @@ def split_user_zoom(user_name):
 def get_info_zooms(user_name, day_: str = 'current'):
     list_zooms = []
     user_name = split_user_zoom(user_name)
-    date_ = days_for_week(argument=day_)
+    date_ = data_zoom.days_for_week(argument=day_)
     data = get_info_work_day()
     if user_name == None:
         return ['Вас нет в базе данных!!!']
     for i in data:
         if i["Operator"] in user_name:
-            print(i['Operator'])
-            print(data_formating(i['Data']))
             if str(date_) == data_formating(i['Data']):
                 list_zooms.append(show_zoom(i))
     if not list_zooms:
@@ -93,11 +90,10 @@ def get_info_zooms(user_name, day_: str = 'current'):
 
 def get_zooms_day(day_: str = 'current'):
     list_zooms = []
-    date_ = days_for_week(argument=day_)
+    date_ = data_zoom.days_for_week(argument=day_)
     data = get_info_work_day()
     for i in data:
         if str(date_) == data_formating(i['Data']):
-            print(i['Comment'])
             if 'вебинар' in i['Comment']:
                 list_zooms.append(show_zoom(i))
     return list_zooms

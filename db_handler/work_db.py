@@ -27,7 +27,7 @@ def connect_db():
     Returns:
         _type_: _description_
     """
-    connection = sqlite3.connect('data_base_zoom.db')
+    connection = sqlite3.connect('..data_base_zoom.db')
     cursor = connection.cursor()
     return cursor, connection
 
