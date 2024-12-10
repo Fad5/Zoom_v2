@@ -3,6 +3,7 @@ import asyncio
 from dotenv import find_dotenv, load_dotenv
 import os
 
+from admin_handler.admin import admin_router
 from user_handler.user import router
 
 load_dotenv(find_dotenv())
@@ -10,6 +11,7 @@ load_dotenv(find_dotenv())
 bot = Bot(token=os.getenv('TOKEN'))
 
 dp = Dispatcher()
+dp.include_router(router=admin_router)
 dp.include_router(router=router)
 
 
