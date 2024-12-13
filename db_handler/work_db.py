@@ -1,33 +1,15 @@
 import sqlite3
 
 
-def get_user_name(id_tg: int, connection: sqlite3.Connection, cursor: sqlite3.Cursor):
-    """Получение 
-
-    Args:
-        id_tg (int): _description_
-        connection (sqlite3.Connection): _description_
-        cursor (sqlite3.Cursor): _description_
-
-    Returns:
-        _type_: _description_
-    """
-    cursor.execute('SELECT *, id_tg FROM Users WHERE id_tg == ?', (id_tg,))
-    result = cursor.fetchall()
-    if not result:
-        return ['Вас не в базе данных']
-    user_name = result[0][2]
-    connection.commit()
-    return user_name
-
-
 def connect_db():
     """Функция для подключение к базе данных
 
     Returns:
-        _type_: _description_
+        cursor,
+        connection
+
     """
-    connection = sqlite3.connect('..data_base_zoom.db')
+    connection = sqlite3.connect('data_base_zoom.db')
     cursor = connection.cursor()
     return cursor, connection
 
@@ -66,4 +48,41 @@ sqlite3.Connection, cursor: sqlite3.Cursor):
     connection.close()
 
 
-cursor, connection = connect_db()
+def is_user_db(id_tg: int):
+    """Получение
+
+        Args:
+            id_tg (int): _description_
+
+        Returns:
+            _type_: _description_
+        """
+    cursor, connection = connect_db()
+    cursor.execute('SELECT *, id_tg FROM Users WHERE id_tg == ?', (id_tg,))
+    result = cursor.fetchall()
+    print(result)
+    if not result:
+        return False
+    connection.commit()
+    return True
+
+
+def get_user_name(id_tg: int):
+    """Получение
+
+    Args:
+        id_tg (int): _description_
+        connection (sqlite3.Connection): _description_
+        cursor (sqlite3.Cursor): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    cursor, connection = connect_db()
+    cursor.execute('SELECT *, id_tg FROM Users WHERE id_tg == ?', (id_tg,))
+    result = cursor.fetchall()
+    if not result:
+        return ['Вас не в базе данных']
+    user_name = result[0][2]
+    connection.commit()
+    return user_name
