@@ -60,7 +60,6 @@ def is_user_db(id_tg: int):
     cursor, connection = connect_db()
     cursor.execute('SELECT *, id_tg FROM Users WHERE id_tg == ?', (id_tg,))
     result = cursor.fetchall()
-    print(result)
     if not result:
         return False
     connection.commit()

@@ -3,7 +3,6 @@ import os
 
 import pandas as pd
 import threading
-from os.path import getctime
 from pathlib import Path
 
 
@@ -23,7 +22,7 @@ def create_cvs_file() -> None:
          column_names[14]]]  # Выберем из даты фрейма столбцы и сохраним в новый дате фрейм
     new_df.to_csv('data_base.csv', index=False)  # Экспорт в CSV файл
     print('Successful')
-    threading.Timer(3600, create_cvs_file).start()
+    threading.Timer(1800, create_cvs_file).start()
 
 
 def get_info_last_download():
